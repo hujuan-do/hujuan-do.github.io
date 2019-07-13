@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Series on 古月的博客</title>
+    <link>https://hujuan-do.github.io/series/</link>
+    <description>Recent content in Series on 古月的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 13 Jul 2019 15:43:13 +0800</lastBuildDate>
+    
+	<atom:link href="https://hujuan-do.github.io/series/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Java</title>
+      <link>https://hujuan-do.github.io/series/Java/</link>
+      <pubDate>Sat, 13 Jul 2019 15:43:13 +0800</pubDate>
+      
+      <guid>https://hujuan-do.github.io/series/Java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>随笔</title>
+      <link>https://hujuan-do.github.io/series/%E9%9A%8F%E7%AC%94/</link>
+      <pubDate>Fri, 12 Jul 2019 19:48:53 +0800</pubDate>
+      
+      <guid>https://hujuan-do.github.io/series/%E9%9A%8F%E7%AC%94/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

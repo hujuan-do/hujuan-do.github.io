@@ -1,0 +1,17 @@
+[
+    {
+        "uri": "/posts/SSM框架整合",
+        "title": "SSM框架整合",
+        "content": "Spring MVC + Spring + Mybatis =SSM框架，那么，如何构建呢？\r\n首先，肯定是先创建项目，以我的IDE--Idea为例，创建\r\n",
+        "tags": "-Spring -Spring MVC -Mybatis  SSM框架"
+    },
+    {
+        "uri": "/posts/我的博客",
+        "title": "我的博客",
+        "content": "\n这是我的第一篇博文，以后我会帮我的一些学习和工作上的经验分享出来，希望大家多来逛逛。\n",
+        "tags": [
+            "tag1",
+            "tag2"
+        ]
+    }
+]

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html><head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate">
+  <title>SSM框架整合 &middot; 古月的博客</title>
+  <link rel="icon" type="image/jpg" href="https://hujuan-do.github.io/img/wallhaven-672007-2.jpg">
+  <style>
+ 
+   
+   
+   
+   
+   
+   
+  
+  </style>
+  <link rel="stylesheet" href="/css/diaspora.css">
+  <link rel="stylesheet" href="/css/insight.css">
+  <link rel="stylesheet" href="/css/custom.css">
+</head><body class="loading">
+        <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+        <div class="bar">
+        </div>
+        <a class="icon-back" href="javascript:history.back()">
+        古月</a>
+        <div title="播放/暂停" class="icon-play">
+        </div>
+       
+        <h3 class="subtitle" style="display: none;">
+        SSM框架整合</h3>
+        
+        <div class="scrollbar" style="width: 1.1636%;"></div>
+    </div>
+    <div class="section">
+        <div class="article">
+            <div>
+                <h1 class="title">
+                SSM框架整合</h1>
+                <div class="stuff">
+                    
+                    <span>2019年7月13日</span>
+                    <span>字数 2031</span>
+                    
+                    
+                </div>
+                <div class="content">
+                    <p>Spring MVC + Spring + Mybatis =SSM框架，那么，如何构建呢？
+首先，肯定是先创建项目，以我的IDE&ndash;Idea为例，创建一个Maven项目
+&emsp;&emsp;<img src="https://hujuan-do.github.io/img/2019-7-13/2019-7-13-1.png" alt="" />
+组名和坐标，用来保证Maven项目唯一性
+&emsp;&emsp;<img src="https://hujuan-do.github.io/img/2019-7-13/2019-7-13-2.png" alt="" />
+Maven默认信息，不改
+&emsp;&emsp;<img src="https://hujuan-do.github.io/img/2019-7-13/2019-7-13-3.png" alt="" />
+项目名和路径
+&emsp;&emsp;<img src="https://hujuan-do.github.io/img/2019-7-13/2019-7-13-4.png" alt="" />
+点击自动下载导包。需联网
+&emsp;&emsp;<img src="https://hujuan-do.github.io/img/2019-7-13/2019-7-13-5.png" alt="" />
+修改目录结构并标记（Make Directory as），如下图所示：
+&emsp;&emsp;<img src="https://hujuan-do.github.io/img/2019-7-13/2019-7-13-6.png" alt="" />
+Pom.xml文件配置依赖<br />
+&emsp;&emsp;dependencies部分<br />
+maven 配置仓库：<a href="https://mvnrepository.com/">https://mvnrepository.com/</a><br />
+大家可以到上面地址中搜索相应名称，找到需要的配置</p>
+
+<blockquote>
+<p>所需jar包以及版本<br />
+fastjson 1.2.54<br />
+spring-webmvc 5.1.4 RELEASE<br />
+mybatis 3.4.6<br />
+mybatis-spring 1.3.2<br />
+spring-jdbc 5.1.4 RELEASE<br />
+mysql-connector-java 5.1.47</p>
+</blockquote>
+
+<p>dependencies位置
+&emsp;&emsp;<img src="https://hujuan-do.github.io/img/2019-7-13/2019-7-13-7.png" alt="" />
+直接将dependency拷贝进去就行<br />
+&emsp;&emsp;resources部分
+&emsp;&emsp;<img src="https://hujuan-do.github.io/img/2019-7-13/2019-7-13-8.png" alt="" />
+下面是我的依赖，可直接复制</p>
+
+<pre><code>   &lt;!--junit--&gt;
+    &lt;dependencies&gt;
+     &lt;dependency&gt;
+      &lt;groupId&gt;junit&lt;/groupId&gt;
+      &lt;artifactId&gt;junit&lt;/artifactId&gt;
+      &lt;version&gt;4.11&lt;/version&gt;
+      &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+
+    &lt;!--fastjson--&gt;
+    &lt;!-- https://mvnrepository.com/artifact/com.alibaba/fastjson --&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+      &lt;artifactId&gt;fastjson&lt;/artifactId&gt;
+      &lt;version&gt;1.2.54&lt;/version&gt;
+    &lt;/dependency&gt;
+
+    &lt;!--spring mvc, 自动加载一些相关的包--&gt;
+    &lt;!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc --&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;
+      &lt;version&gt;5.1.4.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+
+    &lt;!--spring jdbc--&gt;
+    &lt;!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc --&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;
+      &lt;version&gt;5.1.4.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+
+    &lt;!--mybatis--&gt;
+    &lt;!-- https://mvnrepository.com/artifact/org.mybatis/mybatis --&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+      &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+      &lt;version&gt;3.4.6&lt;/version&gt;
+    &lt;/dependency&gt;
+
+    &lt;!--mybatis spring--&gt;
+    &lt;!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring --&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+      &lt;artifactId&gt;mybatis-spring&lt;/artifactId&gt;
+      &lt;version&gt;1.3.2&lt;/version&gt;
+    &lt;/dependency&gt;
+
+    &lt;!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java --&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;mysql&lt;/groupId&gt;
+      &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+      &lt;version&gt;5.1.47&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+</code></pre>
+
+<p>整合配置文件<br />
+&emsp;WEB-INF文件夹下<br />
+&emsp;&emsp;1.web.xml&emsp;整合Spring MVC 与 Spring</p>
+
+<pre><code>&lt;!DOCTYPE web-app PUBLIC
+ &quot;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&quot;
+ &quot;http://java.sun.com/dtd/web-app_2_3.dtd&quot; &gt;
+
+&lt;web-app&gt;
+  &lt;display-name&gt;Archetype Created Web Application&lt;/display-name&gt;
+
+  &lt;!-- 由两部分组成：（1）Spring （2）Spring MVC --&gt;
+  &lt;!-- 每一个部分, 又都有两部分--&gt;
+  &lt;!--（1）Spring --&gt;
+
+  &lt;!--加载 applicationContext.xml --&gt;
+  &lt;!-- Context 是一个场景，描述的是一个应用程序环境的信息，即上下文 --&gt;
+  &lt;context-param&gt;
+    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+    &lt;param-value&gt;WEB-INF/applicationContext.xml&lt;/param-value&gt;
+  &lt;/context-param&gt;
+
+  &lt;!--加载 ContextLoaderListener 是 Spring 的监听器，它的作用就是：--&gt;
+  &lt;!--在启动 Web 容器时，自动装配 ApplicationContext 的配置信息。--&gt;
+  &lt;listener&gt;
+    &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;
+  &lt;/listener&gt;
+
+  &lt;!--（2）整合 spring mvc --&gt;
+  &lt;!-- Servlet：小服务程序或*服务连接器，用 Java 编写的服务器端程序--&gt;
+  &lt;!-- 并且 Servlet 是为了解决实现动态页面而衍生的东西。--&gt;
+  &lt;!-- *处理请求和发送响应的过程是由 Servlet 程序来完成的--&gt;
+  &lt;servlet&gt;
+    &lt;servlet-name&gt;springmvc&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;
+  &lt;/servlet&gt;
+  &lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;springmvc&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;*.do&lt;/url-pattern&gt;
+  &lt;/servlet-mapping&gt;
+
+&lt;/web-app&gt;
+
+</code></pre>
+
+<p>&emsp;&emsp;2.applicationContext.xml&emsp;Spring 的配置文件，整合 MyBatis</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+
+
+    &lt;!--3对context 3对bean--&gt;
+
+    &lt;!--开启注解--&gt;
+    &lt;!--&lt;context:annotation-config&gt; 是用于激活那些已经在 spring 容器里注册过的 bean
+    （无论是通过 xml 的方式还是通过 package sanning 的方式 ）上面的注解。--&gt;
+    &lt;!--&lt;context:component-scan&gt; 除了具有&lt;context:annotation-config&gt;的功能之外--&gt;
+    &lt;!--&lt;context:component-scan&gt; 还可以在指定的 package 下扫描以及注册 javabean --&gt;
+    &lt;context:annotation-config/&gt;
+    &lt;context:component-scan base-package=&quot;com.hj.dao.impl,com.hj.service.impl&quot;/&gt;
+
+    &lt;!--加载属性配置文件--&gt;
+    &lt;context:property-placeholder location=&quot;classpath*:jdbcConfig.properties&quot;/&gt;
+
+    &lt;!--&lt;bean id=&quot;dataSource&quot; class=&quot;com.alibaba.druid.pool.DruidDataSource&quot;&gt;--&gt;
+    &lt;bean id=&quot;dataSource&quot; class=&quot;org.springframework.jdbc.datasource.DriverManagerDataSource&quot;&gt;
+        &lt;property name=&quot;driverClassName&quot; value=&quot;${jdbc.driver}&quot;/&gt;
+        &lt;property name=&quot;url&quot; value=&quot;${jdbc.url}&quot;/&gt;
+        &lt;property name=&quot;username&quot; value=&quot;${jdbc.username}&quot;/&gt;
+        &lt;property name=&quot;password&quot; value=&quot;${jdbc.password}&quot;/&gt;
+    &lt;/bean&gt;
+
+    &lt;!--开启事务--&gt;
+    &lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;&gt;
+        &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;/&gt;
+    &lt;/bean&gt;
+
+    &lt;!--整合 mapper 配置文件方式--&gt;
+    &lt;bean id=&quot;sqlSessionFactory&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&gt;
+        &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;&gt;&lt;/property&gt;
+        &lt;!--&lt;property name=&quot;mapperLocations&quot; value=&quot;${mapper-locations}&quot;&gt;&lt;/property&gt;--&gt;
+        &lt;property name=&quot;mapperLocations&quot; value=&quot;classpath*:com/hj/mapper/*Mapper.xml&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+
+
+&lt;/beans&gt;
+</code></pre>
+
+<p>&emsp;&emsp;3.springmvc-servlet.xml&emsp;Spring MVC 的配置文件</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+
+    &lt;!--开启注解--&gt;
+    &lt;!--&lt;context:annotation-config&gt; 是用于激活那些已经在 spring 容器里注册过的 bean
+    （无论是通过 xml 的方式还是通过 package sanning 的方式 ）上面的注解。--&gt;
+    &lt;!--&lt;context:component-scan&gt; 除了具有&lt;context:annotation-config&gt;的功能之外--&gt;
+    &lt;!--&lt;context:component-scan&gt; 还可以在指定的 package下扫描以及注册 javabean --&gt;
+    &lt;context:annotation-config/&gt;
+    &lt;context:component-scan base-package=&quot;com.hj.action&quot;/&gt;
+
+    &lt;!--json 消息转换器--&gt;
+    &lt;bean class=&quot;org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter&quot;&gt;
+        &lt;property name=&quot;messageConverters&quot;&gt;
+            &lt;list&gt;
+                &lt;bean class=&quot;com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter&quot;&gt;
+                    &lt;property name=&quot;supportedMediaTypes&quot;&gt;
+                        &lt;list&gt;
+                            &lt;value&gt;text/html;charset=utf-8&lt;/value&gt;
+                            &lt;value&gt;application/json&lt;/value&gt;
+                        &lt;/list&gt;
+                    &lt;/property&gt;
+                &lt;/bean&gt;
+            &lt;/list&gt;
+        &lt;/property&gt;
+    &lt;/bean&gt;
+
+&lt;/beans&gt;
+</code></pre>
+
+<p>&emsp;在 resources 目录下<br />
+&emsp;&emsp;jdbcConfig.properties&emsp;文件数据库的登录信息的配置，因为一般给客户自行配置，所以常使用单独文件</p>
+
+<pre><code>jdbc.driver = com.mysql.jdbc.Driver
+jdbc.url = jdbc:mysql://localhost:3306/emp
+jdbc.username = root
+jdbc.password = 123
+</code></pre>
+
+<p>接下来我编写一个实例检测框架搭建是否成功
+项目结构：
+&emsp;&emsp;<img src="https://hujuan-do.github.io/img/2019-7-13/2019-7-13-9.png" alt="" />
+mapper/BooksDaoMapper.xml</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.hj.mapper&quot;&gt;
+  &lt;resultMap id=&quot;BaseResultMap&quot; type=&quot;com.hj.entity.Books&quot;&gt;
+    &lt;id column=&quot;bookID&quot; jdbcType=&quot;INTEGER&quot; property=&quot;bookid&quot; /&gt;
+    &lt;result column=&quot;bookName&quot; jdbcType=&quot;VARCHAR&quot; property=&quot;bookname&quot; /&gt;
+    &lt;result column=&quot;price&quot; jdbcType=&quot;DOUBLE&quot; property=&quot;price&quot; /&gt;
+  &lt;/resultMap&gt;
+  &lt;sql id=&quot;Base_Column_List&quot;&gt;
+    bookID, bookName, price
+  &lt;/sql&gt;
+
+  &lt;select id=&quot;selectByPrimaryKey&quot; parameterType=&quot;java.lang.Integer&quot; resultMap=&quot;BaseResultMap&quot;&gt;
+    select 
+    &lt;include refid=&quot;Base_Column_List&quot; /&gt;
+    from books
+    where bookID = #{bookid,jdbcType=INTEGER}
+  &lt;/select&gt;
+
+  &lt;select id=&quot;selectAllBooks&quot;  resultMap=&quot;BaseResultMap&quot;&gt;
+    select * from books
+  &lt;/select&gt;
+
+  &lt;delete id=&quot;deleteByPrimaryKey&quot; parameterType=&quot;java.lang.Integer&quot;&gt;
+    delete from books
+    where bookID = #{bookid,jdbcType=INTEGER}
+  &lt;/delete&gt;
+
+  &lt;insert id=&quot;insert&quot; keyColumn=&quot;bookID&quot; keyProperty=&quot;bookid&quot; parameterType=&quot;com.hj.entity.Books&quot; useGeneratedKeys=&quot;true&quot;&gt;
+    insert into books (bookName, price)
+    values (#{bookname,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE})
+  &lt;/insert&gt;
+
+  &lt;insert id=&quot;insertSelective&quot; keyColumn=&quot;bookID&quot; keyProperty=&quot;bookid&quot; parameterType=&quot;com.hj.entity.Books&quot; useGeneratedKeys=&quot;true&quot;&gt;
+    insert into books
+    &lt;trim prefix=&quot;(&quot; suffix=&quot;)&quot; suffixOverrides=&quot;,&quot;&gt;
+      &lt;if test=&quot;bookname != null&quot;&gt;
+        bookName,
+      &lt;/if&gt;
+      &lt;if test=&quot;price != null&quot;&gt;
+        price,
+      &lt;/if&gt;
+    &lt;/trim&gt;
+    &lt;trim prefix=&quot;values (&quot; suffix=&quot;)&quot; suffixOverrides=&quot;,&quot;&gt;
+      &lt;if test=&quot;bookname != null&quot;&gt;
+        #{bookname,jdbcType=VARCHAR},
+      &lt;/if&gt;
+      &lt;if test=&quot;price != null&quot;&gt;
+        #{price,jdbcType=DOUBLE},
+      &lt;/if&gt;
+    &lt;/trim&gt;
+  &lt;/insert&gt;
+
+  &lt;update id=&quot;updateByPrimaryKeySelective&quot; parameterType=&quot;com.hj.entity.Books&quot;&gt;
+    update books
+    &lt;set&gt;
+      &lt;if test=&quot;bookname != null&quot;&gt;
+        bookName = #{bookname,jdbcType=VARCHAR},
+      &lt;/if&gt;
+      &lt;if test=&quot;price != null&quot;&gt;
+        price = #{price,jdbcType=DOUBLE},
+      &lt;/if&gt;
+    &lt;/set&gt;
+    where bookID = #{bookid,jdbcType=INTEGER}
+  &lt;/update&gt;
+
+  &lt;update id=&quot;updateByPrimaryKey&quot; parameterType=&quot;com.hj.entity.Books&quot;&gt;
+    update books
+    set bookName = #{bookname,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE}
+    where bookID = #{bookid,jdbcType=INTEGER}
+  &lt;/update&gt;
+
+&lt;/mapper&gt;
+</code></pre>
+
+<p>action/BooksAction.java</p>
+
+<pre><code>package com.hj.action;
+
+import com.hj.entity.Books;
+import com.hj.service.impl.BooksService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
+
+@Controller
+public class BooksAction {
+
+    @Autowired
+    BooksService booksService;
+
+    @RequestMapping(value = &quot;/queryAllBooks.do&quot;,method = RequestMethod.GET)
+    @ResponseBody
+    public List&lt;Books&gt; queryAllUser(){
+
+        //直接调用服务层的 queryAll方法
+        List&lt;Books&gt; Books = booksService.queryAllBooks();
+        return Books;
+    }
+
+}
+
+</code></pre>
+
+<p>service/IBooksService.java &emsp;接口</p>
+
+<pre><code>package com.hj.service;
+import com.hj.entity.Books;
+import java.util.List;
+
+public interface IBooksService {
+    public List&lt;Books&gt; queryAllBooks();
+}
+</code></pre>
+
+<p>service/impl/BooksService.java&emsp;实现类</p>
+
+<pre><code>package com.hj.service.impl;
+import com.hj.dao.impl.BooksDao;
+import com.hj.entity.Books;
+import com.hj.service.IBooksService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class BooksService implements IBooksService {
+
+    @Autowired
+    BooksDao booksDao;
+    @Override
+    public List&lt;Books&gt; queryAllBooks() {
+
+        return booksDao.queryAllBooks();
+
+    }
+}
+
+</code></pre>
+
+<p>dao/IBooksDao.java&emsp;接口</p>
+
+<pre><code>package com.hj.dao;
+
+import com.hj.entity.Books;
+
+import java.util.List;
+
+public interface IBooksDao {
+   // int deleteByPrimaryKey(Integer bookid);
+
+  //  int insert(Books record);
+
+  //  int insertSelective(Books record);
+
+   // Books selectByPrimaryKey(Integer bookid);
+
+   // int updateByPrimaryKeySelective(Books record);
+
+    //int updateByPrimaryKey(Books record);
+
+    public List&lt;Books&gt; queryAllBooks();
+}
+</code></pre>
+
+<p>dao/impl/BooksDao.java&emsp;实现类</p>
+
+<pre><code>package com.hj.dao.impl;
+import com.hj.dao.IBooksDao;
+import com.hj.entity.Books;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import java.util.List;
+
+@Repository
+public class BooksDao implements IBooksDao {
+
+        @Autowired
+        SqlSessionFactory sqlSessionFactory;
+
+        @Override
+        public List&lt;Books&gt; queryAllBooks() {
+
+            String sql = &quot;com.hj.mapper.selectAllBooks&quot;;
+            SqlSession sqlSession = sqlSessionFactory.openSession(true);
+            List&lt;Books&gt; objects = sqlSession.selectList(sql);
+            return objects;
+        }
+}
+</code></pre>
+
+<p>运行测试</p>
+
+<pre><code>输入http://localhost:8080/项目名/queryAllBooks.do
+</code></pre>
+
+<p>运行结果<br />
+&emsp;&emsp;<img src="https://hujuan-do.github.io/img/2019-7-13/2019-7-13-10.png" alt="" />
+搭建成功！撒花！</p>
+
+                    
+                    <audio id="audio" loop="1" preload="auto" style="width: 100%;" controls="controls">
+                        <source type="audio/mpeg" src="http://isujin.com/wp-content/uploads/2016/01/%e8%a1%97%e9%81%93%e7%9a%84%e5%af%82%e5%af%9e.mp3?_=1">
+                        <a href="http://isujin.com/wp-content/uploads/2016/01/%e8%a1%97%e9%81%93%e7%9a%84%e5%af%82%e5%af%9e.mp3?_=1">http://isujin.com/wp-content/uploads/2016/01/街道的寂寞.mp3?_=1</a>
+                    </audio>
+                </div>
+                <div class="comment-wrap">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="relate">
+        <ul>
+            <h3 id="prev_next">
+                <em>相 关 文 章</em>
+                <span>
+                    <a href="javascript: window.scrollTo(0, 0);">
+                    返回顶部</a>
+                    
+                        <a href="https://hujuan-do.github.io/posts/%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2/" rel="prev">上一篇</a>
+                    
+                    
+                </span>
+            </h3>
+            
+            
+            
+                
+                    
+                
+            
+        </ul>
+    </div>
+</div>
+<p style="text-align: center;">
+  <a style="color: inherit" target="_blank" href="https://github.com/honjun/hugo-theme-diaspora"></a>
+</p>
+
+<script>
+  var siteTitle = "古月的博客";
+</script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/InsightSearch.js"></script>
+</body>
+</html>
+

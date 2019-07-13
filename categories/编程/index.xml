@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>编程 on 古月的博客</title>
+    <link>https://hujuan-do.github.io/categories/%E7%BC%96%E7%A8%8B/</link>
+    <description>Recent content in 编程 on 古月的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 13 Jul 2019 15:43:13 +0800</lastBuildDate>
+    
+	<atom:link href="https://hujuan-do.github.io/categories/%E7%BC%96%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>SSM框架整合</title>
+      <link>https://hujuan-do.github.io/posts/SSM%E6%A1%86%E6%9E%B6%E6%95%B4%E5%90%88/</link>
+      <pubDate>Sat, 13 Jul 2019 15:43:13 +0800</pubDate>
+      
+      <guid>https://hujuan-do.github.io/posts/SSM%E6%A1%86%E6%9E%B6%E6%95%B4%E5%90%88/</guid>
+      <description>Spring MVC + Spring + Mybatis =SSM框架，那么，如何构建呢？ 首先，肯定是先创建项目，以我的IDE&amp;ndash;Ide</description>
+    </item>
+    
+  </channel>
+</rss>
